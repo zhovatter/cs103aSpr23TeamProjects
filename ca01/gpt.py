@@ -31,8 +31,11 @@ class GPT():
         # Set up the model and prompt
         self.model_engine = "text-davinci-003"
 
-    def zachQuery(self):
-        return input("Enter a prompt: ")
+    def ZachQuery(self):
+        topic = input("Enter the topic of your poem: ")
+        prompt = f"Generate a 7 line poem about this topic: '{topic}'"
+        return prompt
+    
     def ChristinaQuery(self):
         keyword = input("Enter a keyword  ")
         prompt = f"Generate a life motivation quote using this keyword '{keyword}'."
@@ -65,7 +68,7 @@ if __name__=='__main__':
     elif query_decision == 'Christina':
         query = g.ChristinaQuery()
     else:
-        #query = g.ZachQuery()
-        query = ""
+        query = g.ZachQuery()
+        #query = ""
 
     print(g.getResponse(query))  #"what does openai's GPT stand for?"))
