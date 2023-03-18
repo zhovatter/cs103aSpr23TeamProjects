@@ -31,6 +31,9 @@ class GPT():
         # Set up the model and prompt
         self.model_engine = "text-davinci-003"
 
+    def zachQuery(self):
+        return input("Enter a prompt: ")
+
     def getResponse(self,prompt):
         ''' Generate a GPT response '''
         completion = openai.Completion.create(

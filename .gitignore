@@ -1,6 +1,9 @@
 # secret files for storing API Keys
 secret*
 
+#DS_Store
+*.DS_Store
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
