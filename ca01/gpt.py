@@ -31,6 +31,11 @@ class GPT():
         # Set up the model and prompt
         self.model_engine = "text-davinci-003"
 
+    def ChristinaQuery(self):
+        keyword = input("Enter a keyword  ")
+        prompt = f"Generate a life motivation quote using this keyword '{keyword}'."
+        return prompt
+
     def getResponse(self,prompt):
         ''' Generate a GPT response '''
         completion = openai.Completion.create(
@@ -50,4 +55,15 @@ if __name__=='__main__':
     '''
     import os
     g = GPT(os.environ.get("APIKEY"))
-    print(g.getResponse("what does openai's GPT stand for?"))
+    query_decision = input('enter name of persons query you want to use, Andy, Christina, or Zach: ')
+
+    if query_decision == 'Andy':
+        #query = g.AndyQuery()
+        query = ""
+    elif query_decision == 'Christina':
+        query = g.ChristinaQuery()
+    else:
+        #query = g.ZachQuery()
+        query = ""
+
+    print(g.getResponse(query))  #"what does openai's GPT stand for?"))
