@@ -1,3 +1,6 @@
+# secret files for storing API Keys
+secret*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
