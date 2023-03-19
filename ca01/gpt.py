@@ -40,6 +40,11 @@ class GPT():
         keyword = input("Enter a keyword  ")
         prompt = f"Generate a life motivation quote using this keyword '{keyword}'."
         return prompt
+    
+    def AndyQuery(self):
+        terminology = input("Enter a terminology that you would like explanation: ")
+        prompt = f"Please give the definition of '{terminology}'."
+        return prompt
 
     def getResponse(self,prompt):
         ''' Generate a GPT response '''
@@ -63,8 +68,8 @@ if __name__=='__main__':
     query_decision = input('enter name of persons query you want to use, Andy, Christina, or Zach: ')
 
     if query_decision == 'Andy':
-        #query = g.AndyQuery()
-        query = ""
+        query = g.AndyQuery()
+        # query = ""
     elif query_decision == 'Christina':
         query = g.ChristinaQuery()
     else:
