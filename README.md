@@ -2,7 +2,7 @@
 Projects for cs103a Team
 
 ``` python
-print('hello evil world')
+print('hello world')
 ```
 Team: 
 * Christina Lin 
