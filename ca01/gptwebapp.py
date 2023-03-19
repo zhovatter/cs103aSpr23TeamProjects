@@ -69,7 +69,7 @@ def form():
         <h1>˖⁺‧₊˚♡˚₊‧⁺˖ Welcome to form page, which one would you like to explore first?</h1>
         <p>Interested in Poem: <a href="/poem">poem page</a></p>
         <p>Want some inspirations: <a href="/motivation">motivation page</a></p>
-        <p>Want some inspirations: <a href="/dictionary">dictionary page</a></p>
+        <p>Search up the definition of a word: <a href="/dictionary">dictionary page</a></p>
         <hr>
     '''
 
@@ -93,7 +93,7 @@ def motivation():
         <a href="{url_for('gptdemo')}">Customized Motivation Quote</a>
     '''
 
-@app.route('/motivation')
+@app.route('/dictionary')
 def dictionary():
     ''' display a link to the general query page '''
     print('processing / route')
