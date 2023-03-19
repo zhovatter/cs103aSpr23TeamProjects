@@ -1,7 +1,7 @@
 '''
 gptwebapp shows how to create a web app which ask the user for a prompt
 and then sends it to openai's GPT API to get a response. You can use this
-as your own GPT interface and not have to go through openai's web pages.
+as your own GPT interface and not have to go through openai's web pages. 
 
 We assume that the APIKEY has been put into the shell environment.
 Run this server as follows:
