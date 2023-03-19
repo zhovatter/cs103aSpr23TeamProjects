@@ -29,6 +29,89 @@ gptAPI = GPT(os.environ.get('APIKEY'))
 app.secret_key = b'_5#y2L"F4Q789789uioujkkljkl...8z\n\xec]/'
 
 @app.route('/')
+# intro homepage to our web app
+def home():
+    return '''
+        <!DOCTYPE html>
+        <html>
+            <head>
+                <title>GPT Demo</title>
+            </head>
+            <body style="background-color: #f2f2f2;">
+                <h1>Welcome to the world, little one. Your journey has begun...˗ˏˋ ♡ ˎˊ˗</h1>
+                <pre style="background-color: CornflowerBlue;">Take time to breathe, to be present, and to connect with yourself. ♡❀˖⁺. ༶ ⋆˙⊹❀♡ <3 </pre>
+                <pre style="background-color: pink;">Reflect on what's important in your life and prioritize self-care. ⋆｡ﾟ☁︎｡⋆｡ ﾟ☾ ﾟ｡⋆</pre>
+                <p>Our team program has a special focus on mental health, and is designed to help users reflect on their thoughts and feelings in a safe and non-judgmental environment.</p>
+                <p>We used GPT Demo to generate text based on user input.</p>
+                <p>Whether you're looking for inspiration, support, or simply a way to express yourself, our program would help you generate a personal customized poem, motivation quote, and terminology </p>
+                
+                
+                <p>To get started, go to the <a href="/form">form page</a> and input your thoughts. ❤️‍🩹 🧘</p>
+                <p>Curious about our team members, go to the <a href="/team">team page</a> and check it out.</p>
+                <p>More detail, go to <a href="/index">index page</a> :) •⩊• </p>
+                <p>I hope you enjoy exploring your journey (๑ > ᴗ < ๑)</p>
+                <p>✧ ೃ༄*ੈ✩✧ ೃ༄*ੈ✩ ✧ ೃ༄*ੈ✩✧ ೃ༄*ੈ✩✧ ೃ༄*ੈ✩✧ ೃ༄*ੈ✩✧ ೃ༄*ੈ✩✧ ೃ༄*ੈ✩✧ ೃ༄*ੈ✩✧ ೃ༄*ੈ✩✧ ೃ༄*ੈ✩✧ ೃ༄*ੈ✩✧ ೃ༄*ੈ✩✧ ೃ༄*ੈ✩✧ ೃ༄*ੈ✩✧</p>
+                <hr>
+             
+            </body>
+        </html>
+    '''
+
+# Each team member which ask the user for some input,
+# Then calls the appropriate GPT method to get the response, which it sends back to the browser.
+
+
+@app.route('/form')
+def form():
+    ''' display a link to the general query page '''
+    print('processing / route')
+    return f'''
+        <h1>˖⁺‧₊˚♡˚₊‧⁺˖ Welcome to form page, which one would you like to explore first?</h1>
+        <p>Interested in Poem: <a href="/poem">poem page</a></p>
+        <p>Want some inspirations: <a href="/motivation">motivation page</a></p>
+        <p>Want some inspirations: <a href="/dictionary">dictionary page</a></p>
+        <hr>
+    '''
+
+
+@app.route('/poem')
+def poem():
+    ''' display a link to the general query page '''
+    print('processing / route')
+    return f'''
+        <h1>Make your own poem</h1>
+        <a href="{url_for('gptdemo')}">Customized Poem</a>
+    '''
+
+
+@app.route('/motivation')
+def motivation():
+    ''' display a link to the general query page '''
+    print('processing / route')
+    return f'''
+        <h1>Your motivation quote for today is: </h1>
+        <a href="{url_for('gptdemo')}">Customized Motivation Quote</a>
+    '''
+
+@app.route('/motivation')
+def dictionary():
+    ''' display a link to the general query page '''
+    print('processing / route')
+    return f'''
+        <h1> This is a dictionary </h1>
+        <a href="{url_for('gptdemo')}">Please enter your word </a>
+    '''
+
+@app.route('/about')
+def about():
+    ''' display a link to the general query page '''
+    print('processing / route')
+    return f'''
+        <h1>GPT Demo</h1>
+        <a href="{url_for('gptdemo')}">Ask questions to GPT</a>
+    '''
+
+@app.route('/')
 def index():
     ''' display a link to the general query page '''
     print('processing / route')
