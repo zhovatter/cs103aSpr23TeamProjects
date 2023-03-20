@@ -117,7 +117,7 @@ def motivation():
         Enter your keyword below
         <form method="post">
             <textarea name="keyword"></textarea>
-            <p><input type=submit value="get poem">
+            <p><input type=submit value="get motivation quote">
         </form>
         '''
     elif request.method == 'POST':
@@ -146,7 +146,7 @@ def dictionary():
         Enter your keyword below
         <form method="post">
             <textarea name="keyword"></textarea>
-            <p><input type=submit value="get poem">
+            <p><input type=submit value="get definition">
         </form>
         '''
     elif request.method == 'POST':
