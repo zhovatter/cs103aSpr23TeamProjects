@@ -21,9 +21,11 @@ On Windows:
 from flask import request,redirect,url_for,Flask
 from gpt import GPT
 import os
+import openai
 
 app = Flask(__name__)
 gptAPI = GPT(os.environ.get('APIKEY'))
+openai.api_key = "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"
 
 # Set the secret key to some random bytes. Keep this really secret!
 app.secret_key = b'_5#y2L"F4Q789789uioujkkljkl...8z\n\xec]/'
@@ -69,38 +71,99 @@ def form():
         <h1>˖⁺‧₊˚♡˚₊‧⁺˖ Welcome to form page, which one would you like to explore first?</h1>
         <p>Interested in Poem: <a href="/poem">poem page</a></p>
         <p>Want some inspirations: <a href="/motivation">motivation page</a></p>
-        <p>Search up the definition of a word: <a href="/dictionary">dictionary page</a></p>
+        <p>Ask me anything: <a href="/dictionary">dictionary page</a></p>
+        <p><a href="/">home</a></p>
         <hr>
     '''
 
 
-@app.route('/poem')
+@app.route('/poem', methods=['GET', 'POST'])
 def poem():
-    ''' display a link to the general query page '''
-    print('processing / route')
-    return f'''
+    # handle a get request by sending a form 
+    # and a post request by returning the GPT response
+    if request.method == 'GET':
+        return '''
         <h1>Make your own poem</h1>
-        <a href="{url_for('gptdemo')}">Customized Poem</a>
-    '''
-
-
-@app.route('/motivation')
+        <hr>
+        Enter your keyword below
+        <form method="post">
+            <textarea name="keyword"></textarea>
+            <p><input type=submit value="get poem">
+        </form>
+        '''
+    elif request.method == 'POST':
+        keyword = request.form['keyword']
+        prompt = f"Generate an original 7 line poem about this keyword: '{keyword}'"
+        response = gptAPI.getResponse(prompt)
+        return f'''
+        <h1>Make your own poem</h1>
+        <hr>
+        Here is the response in text mode:
+        <div style="border:thin solid black">{response}</div>
+        <hr>
+        Here is the response in "pre" mode:
+        <pre style="border:thin solid black">{response}</pre>
+        <a href={url_for('form')}> make another query</a>
+        '''
+    
+@app.route('/motivation', methods=['GET', 'POST'])
 def motivation():
-    ''' display a link to the general query page '''
-    print('processing / route')
-    return f'''
-        <h1>Your motivation quote for today is: </h1>
-        <a href="{url_for('gptdemo')}">Customized Motivation Quote</a>
-    '''
-
-@app.route('/dictionary')
+    # handle a get request by sending a form 
+    # and a post request by returning the GPT response
+    if request.method == 'GET':
+        return '''
+        <h1>Motivation</h1>
+        <hr>
+        Enter your keyword below
+        <form method="post">
+            <textarea name="keyword"></textarea>
+            <p><input type=submit value="get poem">
+        </form>
+        '''
+    elif request.method == 'POST':
+        keyword = request.form['keyword']
+        prompt = f"Generate a life motivation quote using the keyword '{keyword}'."
+        response = gptAPI.getResponse(prompt)
+        return f'''
+        <h1>Motivation</h1>
+        <hr>
+        Here is the response in text mode:
+        <div style="border:thin solid black">{response}</div>
+        <hr>
+        Here is the response in "pre" mode:
+        <pre style="border:thin solid black">{response}</pre>
+        <a href={url_for('form')}> make another query</a>
+        '''
+    
+@app.route('/dictionary', methods=['GET', 'POST'])
 def dictionary():
-    ''' display a link to the general query page '''
-    print('processing / route')
-    return f'''
-        <h1> This is a dictionary </h1>
-        <a href="{url_for('gptdemo')}">Please enter your word </a>
-    '''
+    # handle a get request by sending a form 
+    # and a post request by returning the GPT response
+    if request.method == 'GET':
+        return '''
+        <h1>Ask me anything</h1>
+        <hr>
+        Enter your keyword below
+        <form method="post">
+            <textarea name="keyword"></textarea>
+            <p><input type=submit value="get poem">
+        </form>
+        '''
+    elif request.method == 'POST':
+        keyword = request.form['keyword']
+        prompt = f"Give me the dictionary definition of {keyword} in English"
+        response = gptAPI.getResponse(prompt)
+        return f'''
+        <h1>Ask me anything</h1>
+        <hr>
+        Here is the response in text mode:
+        <div style="border:thin solid black">{response}</div>
+        <hr>
+        Here is the response in "pre" mode:
+        <pre style="border:thin solid black">{response}</pre>
+        <a href={url_for('form')}> make another query</a>
+        '''
+
 
 @app.route('/about')
 def about():
@@ -111,7 +174,7 @@ def about():
         <a href="{url_for('gptdemo')}">Ask questions to GPT</a>
     '''
 
-@app.route('/')
+@app.route('/index')
 def index():
     ''' display a link to the general query page '''
     print('processing / route')
@@ -128,15 +191,15 @@ def gptdemo():
     '''
     if request.method == 'POST':
         prompt = request.form['prompt']
-        answer = gptAPI.getResponse(prompt)
+        response = gptAPI.getResponse(prompt)
         return f'''
         <h1>GPT Demo</h1>
         <pre style="bgcolor:yellow">{prompt}</pre>
         <hr>
-        Here is the answer in text mode:
-        <div style="border:thin solid black">{answer}</div>
-        Here is the answer in "pre" mode:
-        <pre style="border:thin solid black">{answer}</pre>
+        Here is the response in text mode:
+        <div style="border:thin solid black">{response}</div>
+        Here is the response in "pre" mode:
+        <pre style="border:thin solid black">{response}</pre>
         <a href={url_for('gptdemo')}> make another query</a>
         '''
     else:
@@ -148,6 +211,8 @@ def gptdemo():
             <p><input type=submit value="get response">
         </form>
         '''
+    
+
 
 if __name__=='__main__':
     # run the code on port 5001, MacOS uses port 5000 for its own service :(
