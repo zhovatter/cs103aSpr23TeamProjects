@@ -22,31 +22,29 @@ import openai
 
 class GPT():
     ''' make queries to gpt from a given API '''
-    def __init__(self,apikey):
+
+    def __init__(self, apikey):
         ''' store the apikey in an instance variable '''
-        self.apikey=apikey
+        self.apikey = apikey
         # Set up the OpenAI API client
-        openai.api_key = apikey #os.environ.get('APIKEY')
+        openai.api_key = apikey  # os.environ.get('APIKEY')
 
         # Set up the model and prompt
         self.model_engine = "text-davinci-003"
 
-    def ZachQuery(self):
-        topic = input("Enter the topic of your poem: ")
-        prompt = f"Generate a 7 line poem about this topic: '{topic}'"
-        return prompt
-    
-    def ChristinaQuery(self):
-        keyword = input("Enter a keyword  ")
-        prompt = f"Generate a life motivation quote using this keyword '{keyword}'."
-        return prompt
-    
-    def AndyQuery(self):
-        terminology = input("Enter a terminology that you would like explanation: ")
-        prompt = f"Please give the definition of '{terminology}'."
-        return prompt
+    def ZachQuery(self, input):
+        prompt = f"Generate a 7 line poem about this topic: '{input}'"
+        return self.getResponse(prompt)
 
-    def getResponse(self,prompt):
+    def ChristinaQuery(self, input):
+        prompt = f"Generate a life motivation quote using this keyword '{input}'."
+        return self.getResponse(prompt)
+
+    def AndyQuery(self, input):
+        prompt = f"Please give the definition of '{input}'."
+        return self.getResponse(prompt)
+
+    def getResponse(self, prompt):
         ''' Generate a GPT response '''
         completion = openai.Completion.create(
             engine=self.model_engine,
@@ -56,24 +54,26 @@ class GPT():
             stop=None,
             temperature=0.8,
         )
-
         response = completion.choices[0].text
         return response
 
-if __name__=='__main__':
+
+if __name__ == '__main__':
     '''
     '''
     import os
     g = GPT(os.environ.get("APIKEY"))
-    query_decision = input('enter name of persons query you want to use, Andy, Christina, or Zach: ')
+    query_decision = input(
+        'enter name of persons query you want to use, Andy, Christina, or Zach: ')
 
     if query_decision == 'Andy':
-        query = g.AndyQuery()
-        # query = ""
-    elif query_decision == 'Christina':
-        query = g.ChristinaQuery()
-    else:
-        query = g.ZachQuery()
-        #query = ""
+        input = input("Enter a terminology that you would like explanation: ")
+        print(g.AndyQuery(input))
 
-    print(g.getResponse(query))  #"what does openai's GPT stand for?"))
+    elif query_decision == 'Christina':
+        input = input("Enter a keyword: ")
+        print(g.ChristinaQuery(input))
+
+    else:
+        input = input("Enter the topic of your poem: ")
+        print(g.ZachQuery(input))
