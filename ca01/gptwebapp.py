@@ -18,17 +18,17 @@ On Windows:
 % $env:APIKEY="....." # in powershell
 % python gptwebapp.py
 '''
-from flask import request,redirect,url_for,Flask
+from flask import request, redirect, url_for, Flask
 from gpt import GPT
 import os
 import openai
 
 app = Flask(__name__)
 gptAPI = GPT(os.environ.get('APIKEY'))
-openai.api_key = "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"
 
 # Set the secret key to some random bytes. Keep this really secret!
 app.secret_key = b'_5#y2L"F4Q789789uioujkkljkl...8z\n\xec]/'
+
 
 @app.route('/')
 # intro homepage to our web app
@@ -76,23 +76,10 @@ def form():
         <hr>
     '''
 
-@app.route('/index')
-def index():
-    ''' displays links to each team-members page '''
-    print('processing / route')
-    return f'''
-        <h1>˖⁺‧₊˚♡˚₊‧⁺˖ Welcome to the index page, which team member's contribution would you like to view first?</h1>
-        <p>Zach's Poem Generator: <a href="/poem">poem page</a></p>
-        <p>Christina's Motivational Quote Generator: <a href="/motivation">motivation page</a></p>
-        <p>Andy's Dictionary: <a href="/dictionary">dictionary page</a></p>
-        <p><a href="/">home</a></p>
-        <hr>
-    '''
-
 
 @app.route('/poem', methods=['GET', 'POST'])
 def poem():
-    # handle a get request by sending a form 
+    # handle a get request by sending a form
     # and a post request by returning the GPT response
     if request.method == 'GET':
         return '''
@@ -106,8 +93,7 @@ def poem():
         '''
     elif request.method == 'POST':
         keyword = request.form['keyword']
-        prompt = f"Generate an original 7 line poem about this keyword: '{keyword}'"
-        response = gptAPI.getResponse(prompt)
+        response = gptAPI.ZachQuery(keyword)
         return f'''
         <h1>Make your own poem</h1>
         <hr>
@@ -118,10 +104,11 @@ def poem():
         <pre style="border:thin solid black">{response}</pre>
         <a href={url_for('form')}> make another query</a>
         '''
-    
+
+
 @app.route('/motivation', methods=['GET', 'POST'])
 def motivation():
-    # handle a get request by sending a form 
+    # handle a get request by sending a form
     # and a post request by returning the GPT response
     if request.method == 'GET':
         return '''
@@ -135,8 +122,7 @@ def motivation():
         '''
     elif request.method == 'POST':
         keyword = request.form['keyword']
-        prompt = f"Generate a life motivation quote using the keyword '{keyword}'."
-        response = gptAPI.getResponse(prompt)
+        response = gptAPI.ChristinaQuery(keyword)
         return f'''
         <h1>Motivation</h1>
         <hr>
@@ -147,10 +133,11 @@ def motivation():
         <pre style="border:thin solid black">{response}</pre>
         <a href={url_for('form')}> make another query</a>
         '''
-    
+
+
 @app.route('/dictionary', methods=['GET', 'POST'])
 def dictionary():
-    # handle a get request by sending a form 
+    # handle a get request by sending a form
     # and a post request by returning the GPT response
     if request.method == 'GET':
         return '''
@@ -159,13 +146,12 @@ def dictionary():
         Enter your keyword below
         <form method="post">
             <textarea name="keyword"></textarea>
-            <p><input type=submit value="get definition">
+            <p><input type=submit value="get word definition">
         </form>
         '''
     elif request.method == 'POST':
         keyword = request.form['keyword']
-        prompt = f"Give me the dictionary definition of {keyword} in English"
-        response = gptAPI.getResponse(prompt)
+        response = gptAPI.AndyQuery(keyword)
         return f'''
         <h1>Ask me anything</h1>
         <hr>
@@ -178,23 +164,38 @@ def dictionary():
         '''
 
 
-@app.route('/about')
-def about():
+@app.route('/team')
+def team():
     ''' display a link to the general query page '''
     print('processing / route')
     return f'''
-        <h1>GPT Demo</h1>
-        <a href="{url_for('gptdemo')}">Ask questions to GPT</a>
+        <h1>˖⁺‧₊˚♡˚₊‧⁺˖ Welcome to our Team Page!! </h1>
+        <pre style="background-color: CornflowerBlue;">Andy He </pre>
+        <p>Andy is a sophomore, and he loves snowboarding and languages. Yahooo! </p>
+        <hr>
+        <pre style="background-color: Pink;">Christina Lin </pre>
+        <p>Christina is a sophomore, and the creator of the motivation quote generator. She loves cookies! </p>
+        <hr>
+        <pre style="background-color: Yellow;">Zach Hovatter </pre>
+        <p>Zach is a sophomore, and the creator of the poem generator page. He enjoys rock climbing and cheesecake.</p>
+        <hr>
+        <p>✧ ೃ༄*ੈ✩✧ ೃ༄*ੈ✩ ✧ ೃ༄*ੈ✩✧ ೃ༄*ੈ✩✧ ೃ༄*ੈ✩✧ ೃ༄*ੈ✩✧ ೃ༄*ੈ✩✧ ೃ༄*ੈ✩✧ ೃ༄*ੈ✩✧ ೃ༄*ੈ✩✧ ೃ༄*ੈ✩✧ ೃ༄*ੈ✩✧ ೃ༄*ੈ✩✧ ೃ༄*ੈ✩✧ ೃ༄*ੈ✩✧</p>
+
     '''
 
-# @app.route('/index')
-# def index():
-#     ''' display a link to the general query page '''
-#     print('processing / route')
-#     return f'''
-#         <h1>GPT Demo</h1>
-#         <a href="{url_for('gptdemo')}">Ask questions to GPT</a>
-#     '''
+
+@app.route('/index')
+def index():
+    ''' displays links to each team-members page '''
+    print('processing / route')
+    return f'''
+        <h1>˖⁺‧₊˚♡˚₊‧⁺˖ Welcome to the index page, which team member's contribution would you like to view first?</h1>
+        <p>Zach's Poem Generator: <a href="/poem">poem page</a></p>
+        <p>Christina's Motivational Quote Generator: <a href="/motivation">motivation page</a></p>
+        <p>Andy's Dictionary: <a href="/dictionary">dictionary page</a></p>
+        <p><a href="/">home</a></p>
+        <hr>
+    '''
 
 
 @app.route('/gptdemo', methods=['GET', 'POST'])
@@ -224,9 +225,8 @@ def gptdemo():
             <p><input type=submit value="get response">
         </form>
         '''
-    
 
 
-if __name__=='__main__':
+if __name__ == '__main__':
     # run the code on port 5001, MacOS uses port 5000 for its own service :(
-    app.run(debug=True,port=5001)
+    app.run(debug=True, port=5001)
