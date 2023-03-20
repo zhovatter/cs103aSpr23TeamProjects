@@ -76,6 +76,19 @@ def form():
         <hr>
     '''
 
+@app.route('/index')
+def index():
+    ''' displays links to each team-members page '''
+    print('processing / route')
+    return f'''
+        <h1>˖⁺‧₊˚♡˚₊‧⁺˖ Welcome to the index page, which team member's contribution would you like to view first?</h1>
+        <p>Zach's Poem Generator: <a href="/poem">poem page</a></p>
+        <p>Christina's Motivational Quote Generator: <a href="/motivation">motivation page</a></p>
+        <p>Andy's Dictionary: <a href="/dictionary">dictionary page</a></p>
+        <p><a href="/">home</a></p>
+        <hr>
+    '''
+
 
 @app.route('/poem', methods=['GET', 'POST'])
 def poem():
@@ -174,14 +187,14 @@ def about():
         <a href="{url_for('gptdemo')}">Ask questions to GPT</a>
     '''
 
-@app.route('/index')
-def index():
-    ''' display a link to the general query page '''
-    print('processing / route')
-    return f'''
-        <h1>GPT Demo</h1>
-        <a href="{url_for('gptdemo')}">Ask questions to GPT</a>
-    '''
+# @app.route('/index')
+# def index():
+#     ''' display a link to the general query page '''
+#     print('processing / route')
+#     return f'''
+#         <h1>GPT Demo</h1>
+#         <a href="{url_for('gptdemo')}">Ask questions to GPT</a>
+#     '''
 
 
 @app.route('/gptdemo', methods=['GET', 'POST'])
