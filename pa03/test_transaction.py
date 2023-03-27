@@ -1,20 +1,22 @@
-from test_transaction import transaction
+from transaction import Transaction as transaction
 import sqlite3
 import pytest
 
 @pytest.fixture
 def test_addTransaction():
-    transaction.addTransaction(100, "category1", "2023-03-26", "description1")
+    transaction.addTransaction(100, "category1", 3,26,2023, "description1")
     assert len(transaction) == 1
     assert transaction[0]["amount"] == 100
     assert transaction[0]["category"] == "category1"
-    assert transaction[0]["date"] == "2023-03-26"
+    assert transaction[0]["month"] == 3
+    assert transaction[0]["day"] == 26
+    assert transaction[0]["year"] == 2023
     assert transaction[0]["description"] == "description1"
 
 
 @pytest.fixture
 def test_deleteTransaction():
-    transaction.addTransaction(100, "category1", "2023-03-26", "description1")
+    transaction.addTransaction(100, "category1", 3,26,2023, "description1")
     transactions = transaction.conn.execute(
         "SELECT * FROM transactions").fetchall()
     assert len(transactions) == 1
@@ -27,11 +29,11 @@ def test_deleteTransaction():
 
 @pytest.fixture
 def test_summarizeDate():
-    transaction.addTransaction(100, "category1", "2023-03-21", "description1")
-    transaction.addTransaction(30, "category2", "2023-03-22", "description2")
-    transaction.addTransaction(94, "category3", "2023-03-23", "description3")
-    transaction.addTransaction(720, "category4", "2023-03-24", "description4")
-    transaction.addTransaction(2708, "category5", "2023-03-25", "description5")
+    transaction.addTransaction(100, "category1",3,21,2023, "description1")
+    transaction.addTransaction(30, "category2",3,22,2023, "description2")
+    transaction.addTransaction(94, "category3", 3,23,2023, "description3")
+    transaction.addTransaction(720, "category4", 3,24,2023, "description4")
+    transaction.addTransaction(2708, "category5", 3,25,2023, "description5")
 
     summary = transaction.summarizeDate()
     assert sorted(summary.keys()) == [
@@ -78,3 +80,5 @@ def test_summarizeCategory(transaction):
     result = transaction.summarizeCategory()
     assert result == {"description1": 194,
                       "description2": 750, "description3": 2708}
+
+
