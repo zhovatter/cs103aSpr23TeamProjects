@@ -80,5 +80,17 @@ def test_summarizeCategory(transaction):
     result = transaction.summarizeCategory()
     assert result == {"description1": 194,
                       "description2": 750, "description3": 2708}
+    
+  
+if __name__ == '__main__':
+    test_addTransaction()
+    test_deleteTransaction()
+    test_summarizeDate()
+    test_summarizeMonth()
+    test_summarizeYear()
+    test_summarizeCategory(transaction)
+    
+    
+        
 
 
