@@ -13,13 +13,36 @@ def toDict(t):
 class TodoList():
     def __init__(self):
         self.runQuery('''CREATE TABLE IF NOT EXISTS tracker
-                    (item # int, amount int, category text, date text, description text)''',())
-    
-    def showCategories(self):
-        ''' returns all categories '''
-        return self.runQuery("SELECT category from tracker")
+                    (amount int, category text, date text, description text)''',())
     
     
+    def quit(self):
+        return null
+    
+    def showTransactions():
+        ''' returns all transactions '''
+        return self.runQuery("SELECT rowid,* from todo")
+        
+    def addTransaction(self,item):
+        '''adds category'''
+        return self.runQuery("INSERT INTO tracker VALUES(?,?,?,?)", (item['amount'], item['category'], item['date'], item['description']))
+    
+    def deleteTransaction(self,rowid):
+        ''' delete a transaction '''
+        return self.runQuery("DELETE FROM transaction WHERE rowid=(?)",(rowid,))
+        
+    def summarizeDate(self):
+        return null
+    
+    def summarizeMonth(self):
+        return null
+    
+    def summarizeYear(self):
+        return null
+    
+    def summarizeCategory(self):
+        return null
+
     
     
     def selectActive(self):
