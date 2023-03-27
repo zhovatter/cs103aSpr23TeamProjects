@@ -58,11 +58,11 @@ def print_transactions(transactions):
         print('no transactions to print')
         return
     print('\n')
-    print("%-10s %-10s %-10s %-10s %-10s"%('item #','amount','category','date', 'desc'))
-    print('-'*50)
+    print("%-10s %-10s %-10s %-10s %-10s %-10s %-10s"%('item #','amount','category','month', 'day', 'year', 'desc'))
+    print('-'*70)
     for item in transactions:
-        values = tuple(item.values()) #(rowid,amount,category,date,desc)
-        print("%-10s %-10s %-10s %-10s %-10s"%values)
+        values = tuple(item.values()) #(rowid,amount,category,month,day,year,desc)
+        print("%-10s %-10s %-10s %-10s %-10s %-10s %-10s"%values)
 
 def process_args(arglist):
     ''' examine args and make appropriate calls to TodoList'''
@@ -72,11 +72,11 @@ def process_args(arglist):
     elif arglist[0]=="show":
         print_transactions(transactions.showTransactions())
     elif arglist[0]=='add':
-        if len(arglist)!=5:
+        if len(arglist)!=7:
             print(arglist)
             print_usage()
         else:
-            transaction = {'amount':arglist[1],'category':arglist[2],'date':arglist[3],'description':arglist[4]}
+            transaction = {'amount':arglist[1],'category':arglist[2],'month':arglist[3],'day':arglist[4],'year':arglist[5],'description':arglist[6]}
             transactions.addTransaction(transaction)
     elif arglist[0]=='delete':
         if len(arglist)!= 2:
@@ -105,16 +105,19 @@ def toplevel():
         args = []
         while args!=['']:
             args = input("command> ").split(' ')
+            if args[0]=='quit':
+                break
             #if args[0]=='add':
                 # join everyting after the name as a string
                 #args = ['add',args[1]," ".join(args[2:])]
             process_args(args)
-            print('-'*50+'\n'*3)
+            print('-'*70+'\n'*3)
     else:
         # read the args and process them
         args = sys.argv[1:]
         process_args(args)
-        print('-'*50+'\n'*3)
+        print('-'*70+'\n'*3)
 
     
 toplevel()
+
