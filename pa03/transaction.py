@@ -5,23 +5,22 @@ import sqlite3
 import os
 
 def toDict(t):
-    ''' t is a tuple (rowid,title, desc,completed)'''
+    ''' t is a tuple (rowid,amount, category, date, description)'''
     print('t='+str(t))
-    todo = {'rowid':t[0], 'title':t[1], 'desc':t[2], 'completed':t[3]}
+    todo = {'rowid':t[0], 'amount':t[1], 'category':t[2], 'date':t[3], 'description':t[4]}
     return todo
 
-class TodoList():
+class Transaction():
     def __init__(self):
         self.runQuery('''CREATE TABLE IF NOT EXISTS tracker
                     (amount int, category text, date text, description text)''',())
     
-    
     def quit(self):
-        return null
+        return None
     
-    def showTransactions():
+    def showTransactions(self):
         ''' returns all transactions '''
-        return self.runQuery("SELECT rowid,* from todo")
+        return self.runQuery("SELECT rowid,* from tracker",())
         
     def addTransaction(self,item):
         '''adds category'''
@@ -29,45 +28,19 @@ class TodoList():
     
     def deleteTransaction(self,rowid):
         ''' delete a transaction '''
-        return self.runQuery("DELETE FROM transaction WHERE rowid=(?)",(rowid,))
+        return self.runQuery("DELETE FROM tracker WHERE rowid=(?)",(rowid,))
         
-    def summarizeDate(self):
-        return null
+    def summarizeDate(self, month, day, year):
+        return self.runQuery("SELECT rowid,* from tracker WHERE date=(?)",(month +'/'+day+'/'+year))
     
-    def summarizeMonth(self):
-        return null
+    def summarizeMonth(self, month, year):
+        return self.runQuery("SELECT rowid,* from tracker WHERE date LIKE '(?)%(?)'",(month,year))
     
-    def summarizeYear(self):
-        return null
+    def summarizeYear(self, year):
+        return self.runQuery("SELECT rowid,* from tracker WHERE date LIKE '%(?)'",(year))
     
-    def summarizeCategory(self):
-        return null
-
-    
-    
-    def selectActive(self):
-        ''' return all of the uncompleted tasks as a list of dicts.'''
-        return self.runQuery("SELECT rowid,* from todo where completed=0",())
-
-    def selectAll(self):
-        ''' return all of the tasks as a list of dicts.'''
-        return self.runQuery("SELECT rowid,* from todo",())
-
-    def selectCompleted(self):
-        ''' return all of the completed tasks as a list of dicts.'''
-        return self.runQuery("SELECT rowid,* from todo where completed=1",())
-
-    def add(self,item):
-        ''' create a todo item and add it to the todo table '''
-        return self.runQuery("INSERT INTO todo VALUES(?,?,?)",(item['title'],item['desc'],item['completed']))
-
-    def delete(self,rowid):
-        ''' delete a todo item '''
-        return self.runQuery("DELETE FROM todo WHERE rowid=(?)",(rowid,))
-
-    def setComplete(self,rowid):
-        ''' mark a todo item as completed '''
-        return self.runQuery("UPDATE todo SET completed=1 WHERE rowid=(?)",(rowid,))
+    def summarizeCategory(self, category):
+        return self.runQuery("SELECT rowrid,* from tracker WHERE category=(?)",(category))
 
     def runQuery(self,query,tuple):
         ''' return all of the uncompleted tasks as a list of dicts.'''
@@ -78,3 +51,28 @@ class TodoList():
         con.commit()
         con.close()
         return [toDict(t) for t in tuples]
+    
+    # def selectActive(self):
+    #     ''' return all of the uncompleted tasks as a list of dicts.'''
+    #     return self.runQuery("SELECT rowid,* from todo where completed=0",())
+
+    # def selectAll(self):
+    #     ''' return all of the tasks as a list of dicts.'''
+    #     return self.runQuery("SELECT rowid,* from todo",())
+
+    # def selectCompleted(self):
+    #     ''' return all of the completed tasks as a list of dicts.'''
+    #     return self.runQuery("SELECT rowid,* from todo where completed=1",())
+
+    # def add(self,item):
+    #     ''' create a todo item and add it to the todo table '''
+    #     return self.runQuery("INSERT INTO todo VALUES(?,?,?)",(item['title'],item['desc'],item['completed']))
+
+    # def delete(self,rowid):
+    #     ''' delete a todo item '''
+    #     return self.runQuery("DELETE FROM todo WHERE rowid=(?)",(rowid,))
+
+    # def setComplete(self,rowid):
+    #     ''' mark a todo item as completed '''
+    #     return self.runQuery("UPDATE todo SET completed=1 WHERE rowid=(?)",(rowid,))
+

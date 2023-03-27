@@ -32,7 +32,7 @@ could be replaced with PostgreSQL or Pandas or straight python lists
 
 '''
 
-from transaction import TodoList
+from transaction import Transaction
 import sys
 
 
@@ -41,54 +41,55 @@ import sys
 def print_usage():
     ''' print an explanation of how to use this command '''
     print('''usage:
-            todo show
-            todo showall
-            todo showcomplete
-            todo add name description
-            todo complete item_id
-            todo delete item_id
+            tracker quit
+            tracker show
+            tracker add amount category date description
+            tracker delete item_id
+            tracker summarizeDate month day year
+            tracker summarizeMonth month year
+            tracker summarizeYear year
+            tracker summarizeCategory category
             '''
             )
 
-def print_todos(todos):
+def print_transactions(transactions):
     ''' print the todo items '''
-    if len(todos)==0:
-        print('no tasks to print')
+    if len(transactions)==0:
+        print('no transactions to print')
         return
     print('\n')
-    print("%-10s %-10s %-30s %-10s"%('item #','title','desc','completed'))
+    print("%-10s %-10s %-30s %-10s"%('item #','amount','category','date', 'desc'))
     print('-'*40)
-    for item in todos:
-        values = tuple(item.values()) #(rowid,title,desc,completed)
+    for item in transactions:
+        values = tuple(item.values()) #(rowid,amount,category,date,desc)
         print("%-10s %-10s %-30s %2d"%values)
 
 def process_args(arglist):
     ''' examine args and make appropriate calls to TodoList'''
-    todolist = TodoList()
+    transactions = Transaction()
     if arglist==[]:
         print_usage()
     elif arglist[0]=="show":
-        print_todos(todolist.selectActive())
-    elif arglist[0]=="showall":
-        print_todos(todos = todolist.selectAll())
-    elif arglist[0]=="showcomplete":
-        print_todos(todolist.selectCompleted())
+        print_transactions(transactions.showTransactions())
     elif arglist[0]=='add':
-        if len(arglist)!=3:
+        if len(arglist)!=4:
             print_usage()
         else:
-            todo = {'title':arglist[1],'desc':arglist[2],'completed':0}
-            todolist.add(todo)
-    elif arglist[0]=='complete':
-        if len(arglist)!= 2:
-            print_usage()
-        else:
-            todolist.setComplete(arglist[1])
+            transaction = {'amount':arglist[1],'category':arglist[2],'date':arglist[3],'desc':arglist[4]}
+            transactions.add(transaction)
     elif arglist[0]=='delete':
         if len(arglist)!= 2:
             print_usage()
         else:
-            todolist.delete(arglist[1])
+            transactions.delete(arglist[1])
+    elif arglist[0]=='summarizeDate':
+        print_transactions(transactions.summarizeDate(arglist[1],arglist[2],arglist[3]))
+    elif arglist[0]=='summarizeMonth':
+        print_transactions(transactions.summarizeMonth(arglist[1],arglist[2]))
+    elif arglist[0]=='summarizeYear':
+        print_transactions(transactions.summarizeYear(arglist[1]))
+    elif arglist[0]=='summarizeCategory':
+        print_transactions(transactions.summarizeCategory(arglist[1]))
     else:
         print(arglist,"is not implemented")
         print_usage()
