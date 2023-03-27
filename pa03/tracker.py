@@ -58,11 +58,11 @@ def print_transactions(transactions):
         print('no transactions to print')
         return
     print('\n')
-    print("%-10s %-10s %-30s %-10s"%('item #','amount','category','date', 'desc'))
-    print('-'*40)
+    print("%-10s %-10s %-10s %-10s %-10s"%('item #','amount','category','date', 'desc'))
+    print('-'*50)
     for item in transactions:
         values = tuple(item.values()) #(rowid,amount,category,date,desc)
-        print("%-10s %-10s %-30s %2d"%values)
+        print("%-10s %-10s %-10s %-10s %-10s"%values)
 
 def process_args(arglist):
     ''' examine args and make appropriate calls to TodoList'''
@@ -72,16 +72,17 @@ def process_args(arglist):
     elif arglist[0]=="show":
         print_transactions(transactions.showTransactions())
     elif arglist[0]=='add':
-        if len(arglist)!=4:
+        if len(arglist)!=5:
+            print(arglist)
             print_usage()
         else:
-            transaction = {'amount':arglist[1],'category':arglist[2],'date':arglist[3],'desc':arglist[4]}
-            transactions.add(transaction)
+            transaction = {'amount':arglist[1],'category':arglist[2],'date':arglist[3],'description':arglist[4]}
+            transactions.addTransaction(transaction)
     elif arglist[0]=='delete':
         if len(arglist)!= 2:
             print_usage()
         else:
-            transactions.delete(arglist[1])
+            transactions.deleteTransaction(arglist[1])
     elif arglist[0]=='summarizeDate':
         print_transactions(transactions.summarizeDate(arglist[1],arglist[2],arglist[3]))
     elif arglist[0]=='summarizeMonth':
@@ -104,16 +105,16 @@ def toplevel():
         args = []
         while args!=['']:
             args = input("command> ").split(' ')
-            if args[0]=='add':
+            #if args[0]=='add':
                 # join everyting after the name as a string
-                args = ['add',args[1]," ".join(args[2:])]
+                #args = ['add',args[1]," ".join(args[2:])]
             process_args(args)
-            print('-'*40+'\n'*3)
+            print('-'*50+'\n'*3)
     else:
         # read the args and process them
         args = sys.argv[1:]
         process_args(args)
-        print('-'*40+'\n'*3)
+        print('-'*50+'\n'*3)
 
     
 toplevel()
