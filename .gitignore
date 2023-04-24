@@ -1,5 +1,8 @@
 # secret files for storing API Keys
 secret*
+*startup.sh
+*node_modules
+
 
 #DS_Store
 *.DS_Store
