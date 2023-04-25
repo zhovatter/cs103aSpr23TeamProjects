@@ -1,0 +1,67 @@
+<!-- transactionsList.ejs -->
+
+<h1> Transactions for <%= user.username %>
+</h1>
+
+<div class="row">
+    <div class="col">
+        <p> Here is your list of things to do! </p>
+        <div class="btn-group">
+            <a class="btn btn-lg btn-primary btn-sm">group by category </a>
+            <a class="btn btn-lg btn-primary btn-sm">sort by category </a>
+            <a class="btn btn-lg btn-primary btn-sm">sort by amount </a>
+            <a class="btn btn-lg btn-primary btn-sm">sort by description </a>
+            <a class="btn btn-lg btn-primary btn-sm">sort by date </a>
+        </div>
+        <table class="table table-striped table-hover mt-3">
+            <thead>
+                <tr>
+                    <th scope="col" class="border-end">description</th>
+                    <th scope="col" class="border-end">amount</th>
+                    <th scope="col" class="border-end">category</th>
+                    <th scope="col" class="border-end">date</th>
+                    <th scope="col" class="border-end">delete</th>
+                    <th scope="col" class="border-end">edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% transactions.forEach(transaction=> { %>
+                    <tr>
+                        <td class="border-end">
+                            <form action="/transactions/edit/<%= transaction.id %>" method="POST">
+                                <input type="text" name="description" value="<%= transaction.description %>">
+                        </td>
+                        <td class="border-end">
+                            <input type="number" name="amount" value="<%= transaction.amount %>">
+                        </td>
+                        <td class="border-end">
+                            <input type="text" name="category" value="<%= transaction.category %>">
+                        </td>
+                        <td class="border-end">
+                            <input type="date" name="date" value="<%= transaction.date %>">
+                        </td>
+                        <td class="border-end">
+                            <a class="bi bi-trash" href="/transactions/delete/<%= transaction.id %>"></a>
+                        </td>
+                        <td class="border-end">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <% }) %>
+            </tbody>
+        </table>
+    </div>
+</div>
+<h1> Add a New Transaction </h1>
+<form action="/transactions" method="POST">
+    <input type="text" id="description" name="description" placeholder="description" required>
+    <br>
+    <input type="text" id="category" name="category" placeholder="category" required>
+    <br>
+    <input type="number" id="amount" name="amount" placeholder="amount" required>
+    <br>
+    <input type="date" id="date" name="date" placeholder="date" required>
+    <br>
+    <button type="submit">store</button>
+</form>
