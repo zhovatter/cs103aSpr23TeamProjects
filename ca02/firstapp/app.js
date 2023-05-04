@@ -98,6 +98,10 @@ app.use(layouts);
 //   res.render('index');
 // })
 
+app.get('/', (req,res,next) => {
+  res.render('index');
+})
+
 app.get('/about', 
   isLoggedIn,
   (req,res,next) => {
