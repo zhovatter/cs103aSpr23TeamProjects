@@ -7,6 +7,9 @@ const layouts = require("express-ejs-layouts");
 const pw_auth_router = require('./routes/pwauth')
 const toDoRouter = require('./routes/todo');
 const teamRouter = require('./routes/team');
+const zachRouter = require('./routes/zach');
+const christinaRouter = require('./routes/christina');
+const andyRouter = require('./routes/andy');
 const indexRouter = require('./routes/index');
 const weatherRouter = require('./routes/weather');
 
@@ -113,6 +116,18 @@ app.get('/team', (req,res,next) => {
   res.render('team');
 })
 
+app.get('/zach', (req,res,next) => {
+  res.render('zach');
+})
+
+app.get('/christina', (req,res,next) => {
+  res.render('christina');
+})
+
+app.get('/andy', (req,res,next) => {
+  res.render('andy');
+})
+
 app.get('/index', (req,res,next) => {
   res.render('index');
  
@@ -122,6 +137,9 @@ app.use(toDoRouter);
 app.use(teamRouter);
 app.use(indexRouter);
 app.use(weatherRouter);
+app.use(zachRouter);
+app.use(christinaRouter);
+app.use(andyRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
