@@ -111,6 +111,7 @@ app.get('/team', (req,res,next) => {
 
 app.get('/index', (req,res,next) => {
   res.render('index');
+ 
 })
 
 app.use(toDoRouter);
