@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/team/',
+router.get('/index/',
   async (req, res, next) => {
-    res.render('team');
+    res.render('index');
 });
 
-router.post('/team',
+router.post('/index',
   async (req, res, next) => {
-      res.redirect('/team')
+      res.redirect('/index')
 });
 module.exports = router;
