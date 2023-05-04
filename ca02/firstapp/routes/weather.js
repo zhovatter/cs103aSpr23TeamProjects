@@ -7,8 +7,9 @@
 */
 const express = require('express');
 const router = express.Router();
-const ToDoItem = require('../models/ToDoItem')
 const axios = require('axios')
+const WeatherItem = require('../models/WeatherItem')
+const User = require('../models/User')
 
 router.get('/weather', (req,res,next) => {
     res.render('weather')
@@ -62,5 +63,27 @@ router.post('/weather',
     res.render('weatherForecast')
 }
 )
+
+router.get('/weather/byUser',
+  isLoggedIn,
+  async (req, res, next) => {
+      let results =
+            await WeatherItem.aggregate(
+                [ 
+                  {$group:{
+                    _id:'$userId',
+                    }},
+                  {$sort:{total:-1}},              
+                ])
+              
+        results = 
+           await User.populate(results,
+                   {path:'_id',
+                   select:['address']})
+
+        //res.json(results)
+        res.render('summarizeByUser',{results})
+module.exports = router;
+});
 
   module.exports = router;
