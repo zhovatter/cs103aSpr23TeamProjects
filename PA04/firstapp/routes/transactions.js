@@ -37,7 +37,7 @@ router.get('/transactions/',
 
           //show all of the transactions
           transactions = await Transactions.find({userId:req.user._id});//.sort({ date: -1 });
-          console.log(transactions);
+          //console.log(transactions);
           res.render('transactionsList', {transactions});
       });
 
@@ -96,27 +96,29 @@ router.get('/transactions/edit/:transactionsId',
 
 // may not need this part
 router.get('/transactions/byCategory',
-  isLoggedIn,
-  async (req, res, next) => {
-      let results =
-            await Transactions.aggregate(
-                [ 
-                  {$group:{
-                    _id:'$userId',
-                    total:{$count:{}}
-                    }},
-                  {$sort:{total:-1}},              
-                ])
-              
-        results = 
-           await User.populate(results,
-                   {path:'_id',
-                   select:['username','age']})
+isLoggedIn,
+async (req, res, next) => {
+    let results =
+          await Transactions.aggregate(
+              [ 
+                {$group:{
+                  _id:'userID'
+                  ,total:{$count:{}}
+                  }},
+                {$sort:{total:-1}},              
+              ])
+            
+      results = 
+      //use Transactions.populate!!
+         await User.populate(results,
+                 {path:'_id',
+                 select:['category','amount']})
 
-        //res.json(results)
-        // RESULTS IS REPLACING 'transactions' IN TRANSACTIONLIST.EJS FOREACH LOOP!!!!
-        res.render('groupByCategory',{results})
-});
+      //res.json(results)
+
+      //use log prints to see what is being transferred!
+      res.render('groupByCategory',{results})
+     });
 
 
 
