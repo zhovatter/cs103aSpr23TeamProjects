@@ -1,0 +1,19 @@
+<h1>Transactions for <%= user.username %></h1>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>category</th>
+            <th>amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% results.map(transaction => {%>
+            <tr>
+               <td> <%= transaction.category %> </td>
+               <td><%= transaction.amount %></td>
+            </tr>
+            
+            <% }) %>
+
+    </tbody>
+</table>
