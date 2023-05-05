@@ -38,6 +38,7 @@ router.get('/todo/',
                         .sort({completed:1,priority:1,createdAt:1})
 
       }
+            console.log(items);
             res.render('toDoList',{items,show,completed});
 });
 

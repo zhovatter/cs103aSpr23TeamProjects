@@ -24,38 +24,33 @@ isLoggedIn = (req,res,next) => {
 
 // get the value associated to the key
 router.get('/transactions/',
-  isLoggedIn,
-  async (req, res, next) => {
-    const transactions = await Transactions.find({ userId: req.user._id }).sort({ date: -1 });
-    res.render('transactionsList', { transactions: transactions, user: req.user });
-});
-
-// router.post('/todo',
 //   isLoggedIn,
 //   async (req, res, next) => {
-//       const todo = new ToDoItem(
-//         {item:req.body.item,
-//          createdAt: new Date(),
-//          completed: false,
-//          priority: parseInt(req.body.priority),
-//          userId: req.user._id
-//         })
-//       await todo.save();
-//       res.redirect('/todo')
+//     const transactions = await Transactions.find({ userId: req.user._id }).sort({ date: -1 });
+//     res.render('transactionsList', { transactions: transactions, user: req.user });
 // });
+      isLoggedIn,
+      async (req, res, next) => {
+         // const show = req.query.show
+          // const completed = show=='completed'
+          let transactions=[];
+
+          //show all of the transactions
+          transactions = await Transactions.find({userId:req.user._id});//.sort({ date: -1 });
+          console.log(transactions);
+          res.render('transactionsList', {transactions});
+      });
+
 /* add a transaction */
 router.post('/transactions',
   isLoggedIn,
   async (req, res, next) => {
-    const{description, 
-      amount, 
-      category, 
-      date} = req.body;
+    //const{description, amount, category,  date} = req.body;
       const transaction = new Transactions(
-        {description,
-          amount,
-          category,
-          date,
+        {description:req.body.description,
+          amount: parseInt(req.body.amount),
+          category: req.body.category,
+          date: req.body.date,
           userId: req.user._id
         })
       await transaction.save();
@@ -119,7 +114,8 @@ router.get('/transactions/byCategory',
                    select:['username','age']})
 
         //res.json(results)
-        res.render('transactionsList',{results})
+        // RESULTS IS REPLACING 'transactions' IN TRANSACTIONLIST.EJS FOREACH LOOP!!!!
+        res.render('groupByCategory',{results})
 });
 
 
