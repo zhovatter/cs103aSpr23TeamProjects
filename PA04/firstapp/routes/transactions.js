@@ -30,8 +30,21 @@ router.get('/transactions/',
     res.render('transactionsList', { transactions: transactions, user: req.user });
 });
 
+// router.post('/todo',
+//   isLoggedIn,
+//   async (req, res, next) => {
+//       const todo = new ToDoItem(
+//         {item:req.body.item,
+//          createdAt: new Date(),
+//          completed: false,
+//          priority: parseInt(req.body.priority),
+//          userId: req.user._id
+//         })
+//       await todo.save();
+//       res.redirect('/todo')
+// });
 /* add a transaction */
-router.post('/transactions/add',
+router.post('/transactions',
   isLoggedIn,
   async (req, res, next) => {
     const{description, 
@@ -46,7 +59,7 @@ router.post('/transactions/add',
           userId: req.user._id
         })
       await transaction.save();
-      res.render('transactionsList', {description, amount, category, date, userId: req.user._id});
+      //res.render('transactionsList', {description, amount, category, date, userId: req.user._id});
       res.redirect('/transactions');
 });
 
@@ -54,21 +67,21 @@ router.post('/transactions/add',
 router.get('/transactions/remove/:transactionsId',
   isLoggedIn,
   async (req, res, next) => {
+      console.log("inside /transactions/remove/:transactionsId")
       await Transactions.deleteOne({_id:req.params.transactionsId});
-      res.redirect('/transactions');
+      res.redirect('/transactions')
 });
 
 // updating a transaction
-router.get('/transactions/update',
+router.post('/transactions/update',
   isLoggedIn,
   async (req, res, next) => {
       //console.log("inside /transactions/complete/:itemId")
       const {transactionId, description, amount, category, date} = req.body;
       await Transactions.findOneAndUpdate(
-        {_id:req.params.transactionsId},
-        // {$set: {completed:false}} 
-        {description, amount, category, date}
-        );
+        {_id:transactionId},
+        {$set: {description, amount, category, date}} );
+       {description, amount, category, date}
       res.redirect('/transactions')
 });
 
@@ -76,18 +89,18 @@ router.get('/transactions/update',
 router.get('/transactions/edit/:transactionsId',
   isLoggedIn,
   async (req, res, next) => {
-    try {
+      console.log("inside /transactions/edit/:transactionsId")
       const transaction = await Transactions.findById(req.params.transactionsId);
-      res.render('transactionEdit', { transaction }); // Pass transaction data as a local variable
-    } catch (err) {
+      //res.render('transactionEdit', { transaction }); // Pass transaction data as a local variable
       // Handle any errors that occur while fetching transaction data
-      console.error(err);
-      res.redirect('/transactions');
-    }
+      //console.error(err);
+      res.locals.transaction = transaction
+      res.render('transactionEdit')
+      //res.redirect('/transactions');
 });
 
 // may not need this part
-router.get('/transactions/byUser',
+router.get('/transactions/byCategory',
   isLoggedIn,
   async (req, res, next) => {
       let results =

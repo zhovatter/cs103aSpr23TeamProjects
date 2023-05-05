@@ -1,11 +1,20 @@
-<h1> Weather Demo </h1>
+<h1> Find Weather in the Capital of a State in New England</h1>
 <form method="post" action="/weather">
-  Enter an address:<input type="text" name="address"><br>
-  <input type="submit">
+    state: <select name="address">
+      <option> 1 Main Street, Hartford, Connecticut </option>
+      <option> 46 Quimby Street, Augusta, Maine </option>
+      <option> 1 Main Street, Concord, New Hampshire </option>
+      <option> 1 Main Street, Boston, Massachusetts </option>
+      <option> 1 Main Street, Providence, Rhode Island </option>
+      <option> 1 Main Street, Montpelier, Vermont</option>
+    </select>
+    <br>
+    
+    <input type="submit" value="find">
 </form>
 
-<h1>JSON format</h1>
+<!-- <h1>JSON format</h1>
 <form method="post" action="/weather.json">
   Enter an address:<input type="text" name="address"><br>
   <input type="submit">
-</form>
+</form> -->

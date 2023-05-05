@@ -4,7 +4,7 @@
     <%= JSON.stringify(transaction, null, 5) %>
 </pre>
 
-<form method="POST" action="/transactions/edit/<%= transaction._id %>">
+<form method="POST" action="/transactions/update">
     <input type="hidden" name="transactionId" value="<%= transaction._id %>">
     <div class="form-group">
         <label for="description">description</label>
@@ -24,6 +24,6 @@
         <input type="date" class="form-control" id="date" name="date"
             value="<%= transaction.date.toISOString().split('T')[0] %>">
     </div>
-    <button type="submit" class="btn btn-primary">Update Transaction</button>
+    <input type="submit" value="submit">
     <a href="/transactions" class="btn btn-secondary">Cancel</a>
 </form>
