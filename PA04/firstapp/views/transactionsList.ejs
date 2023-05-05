@@ -28,7 +28,19 @@
                 <% transactions.forEach(transaction=> { %>
                     <tr>
                         <td class="border-end">
-                            <form action="/transactions/edit/<%= transaction.id %>" method="POST">
+                            <li class="list-group-item">
+                                <span class="mx-5">
+                                  <%= transaction.description %>
+                                </span>
+                                <span class="badge rounded-pill bg-danger">
+                                  <%= transaction.amount %>
+                                </span>
+
+                                  <i class="bi bi-pencil-square"></i>
+                                </a>
+                      
+                              </li>
+                            <!-- <form action="/transactions/edit/<%= transaction._id %>" method="POST">
                                 <input type="text" name="description" value="<%= transaction.description %>">
                         </td>
                         <td class="border-end">
@@ -41,11 +53,13 @@
                             <input type="date" name="date" value="<%= transaction.date %>">
                         </td>
                         <td class="border-end">
-                            <a class="bi bi-trash" href="/transactions/delete/<%= transaction.id %>"></a>
+                            <a class="bi bi-trash" href="/transactions/remove/<%= transaction._id %>"></a>
                         </td>
                         <td class="border-end">
-                            <button type="submit" class="btn btn-primary">Save</button>
-                            </form>
+                            <a href="/transactions/edit/<%=transaction._id %>">
+                                <i class="bi bi-pencil-square"></i>
+                              </a>
+                            </form> -->
                         </td>
                     </tr>
                     <% }) %>
@@ -54,7 +68,20 @@
     </div>
 </div>
 <h1> Add a New Transaction </h1>
-<form action="/transactions" method="POST">
+<!-- <form method="post" action="todo">
+    new item: <input type="text" name="item">
+    <br>
+    priority: <select name="priority">
+      <option>1 </option>
+      <option>2 </option>
+      <option>3 </option>
+      <option>4 </option>
+      <option>5 </option>
+    </select>
+    <br>
+    <input type="submit" value="store">
+  </form> -->
+<form action="transactions" method="POST">
     <input type="text" id="description" name="description" placeholder="description" required>
     <br>
     <input type="text" id="category" name="category" placeholder="category" required>

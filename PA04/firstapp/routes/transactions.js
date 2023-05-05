@@ -30,8 +30,21 @@ router.get('/transactions/',
     res.render('transactionsList', { transactions: transactions, user: req.user });
 });
 
+// router.post('/todo',
+//   isLoggedIn,
+//   async (req, res, next) => {
+//       const todo = new ToDoItem(
+//         {item:req.body.item,
+//          createdAt: new Date(),
+//          completed: false,
+//          priority: parseInt(req.body.priority),
+//          userId: req.user._id
+//         })
+//       await todo.save();
+//       res.redirect('/todo')
+// });
 /* add a transaction */
-router.post('/transactions/add',
+router.post('/transactions',
   isLoggedIn,
   async (req, res, next) => {
     const{description, 
@@ -46,7 +59,7 @@ router.post('/transactions/add',
           userId: req.user._id
         })
       await transaction.save();
-      res.render('transactionsList', {description, amount, category, date, userId: req.user._id});
+      //res.render('transactionsList', {description, amount, category, date, userId: req.user._id});
       res.redirect('/transactions');
 });
 
@@ -54,8 +67,9 @@ router.post('/transactions/add',
 router.get('/transactions/remove/:transactionsId',
   isLoggedIn,
   async (req, res, next) => {
-      await Transactions.deleteOne({_id:req.params.transactionsId});
-      res.redirect('/transactions');
+      console.log("inside /transactions/remove/:itemId")
+      await Transactions.deleteOne({_id:req.params.itemId});
+      res.redirect('/transactions')
 });
 
 // updating a transaction
@@ -78,11 +92,13 @@ router.get('/transactions/edit/:transactionsId',
   async (req, res, next) => {
     try {
       const transaction = await Transactions.findById(req.params.transactionsId);
-      res.render('transactionEdit', { transaction }); // Pass transaction data as a local variable
+      //res.render('transactionEdit', { transaction }); // Pass transaction data as a local variable
     } catch (err) {
       // Handle any errors that occur while fetching transaction data
       console.error(err);
-      res.redirect('/transactions');
+      res.locals.item = item
+      res.render(transactionEdit)
+      //res.redirect('/transactions');
     }
 });
 
