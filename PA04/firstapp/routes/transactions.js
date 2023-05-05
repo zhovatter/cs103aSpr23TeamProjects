@@ -67,22 +67,21 @@ router.post('/transactions',
 router.get('/transactions/remove/:transactionsId',
   isLoggedIn,
   async (req, res, next) => {
-      console.log("inside /transactions/remove/:itemId")
-      await Transactions.deleteOne({_id:req.params.itemId});
+      console.log("inside /transactions/remove/:transactionsId")
+      await Transactions.deleteOne({_id:req.params.transactionsId});
       res.redirect('/transactions')
 });
 
 // updating a transaction
-router.get('/transactions/update',
+router.post('/transactions/update',
   isLoggedIn,
   async (req, res, next) => {
       //console.log("inside /transactions/complete/:itemId")
       const {transactionId, description, amount, category, date} = req.body;
       await Transactions.findOneAndUpdate(
-        {_id:req.params.transactionsId},
-        // {$set: {completed:false}} 
-        {description, amount, category, date}
-        );
+        {_id:transactionId},
+        {$set: {description, amount, category, date}} );
+       {description, amount, category, date}
       res.redirect('/transactions')
 });
 
@@ -90,20 +89,18 @@ router.get('/transactions/update',
 router.get('/transactions/edit/:transactionsId',
   isLoggedIn,
   async (req, res, next) => {
-    try {
+      console.log("inside /transactions/edit/:transactionsId")
       const transaction = await Transactions.findById(req.params.transactionsId);
       //res.render('transactionEdit', { transaction }); // Pass transaction data as a local variable
-    } catch (err) {
       // Handle any errors that occur while fetching transaction data
-      console.error(err);
-      res.locals.item = item
-      res.render(transactionEdit)
+      //console.error(err);
+      res.locals.transaction = transaction
+      res.render('transactionEdit')
       //res.redirect('/transactions');
-    }
 });
 
 // may not need this part
-router.get('/transactions/byUser',
+router.get('/transactions/byCategory',
   isLoggedIn,
   async (req, res, next) => {
       let results =

@@ -7,7 +7,7 @@
     <div class="col">
         <p> Here is your list of things to do! </p>
         <div class="btn-group">
-            <a class="btn btn-lg btn-primary btn-sm">group by category </a>
+            <a class="btn btn-lg btn-primary btn-sm" href="/transactions/byCategory">group by category </a>
             <a class="btn btn-lg btn-primary btn-sm">sort by category </a>
             <a class="btn btn-lg btn-primary btn-sm">sort by amount </a>
             <a class="btn btn-lg btn-primary btn-sm">sort by description </a>
@@ -27,40 +27,34 @@
             <tbody>
                 <% transactions.forEach(transaction=> { %>
                     <tr>
+                        
                         <td class="border-end">
                             <li class="list-group-item">
                                 <span class="mx-5">
                                   <%= transaction.description %>
                                 </span>
-                                <span class="badge rounded-pill bg-danger">
+                            </td>
+                                <td class="mx-5">
                                   <%= transaction.amount %>
-                                </span>
+                                <!-- </span> -->
+                                </td>
+                                <td class="border-end">
+                                    <%= transaction.category %>
+                                </td>
+                                <td class="border-end">
+                                    <%= transaction.date %>
+                                </td>
 
-                                  <i class="bi bi-pencil-square"></i>
                                 </a>
-                      
+                                <td class="border-end">
+                                    <a class="bi bi-trash" href="/transactions/remove/<%= transaction._id %>"></a>
+                                </td>
+                                <td class="border-end">
+                                    <a href="/transactions/edit/<%=transaction._id %>">
+                                        <i class="bi bi-pencil-square"></i>
+                                      </a>
+                                </td>
                               </li>
-                            <!-- <form action="/transactions/edit/<%= transaction._id %>" method="POST">
-                                <input type="text" name="description" value="<%= transaction.description %>">
-                        </td>
-                        <td class="border-end">
-                            <input type="number" name="amount" value="<%= transaction.amount %>">
-                        </td>
-                        <td class="border-end">
-                            <input type="text" name="category" value="<%= transaction.category %>">
-                        </td>
-                        <td class="border-end">
-                            <input type="date" name="date" value="<%= transaction.date %>">
-                        </td>
-                        <td class="border-end">
-                            <a class="bi bi-trash" href="/transactions/remove/<%= transaction._id %>"></a>
-                        </td>
-                        <td class="border-end">
-                            <a href="/transactions/edit/<%=transaction._id %>">
-                                <i class="bi bi-pencil-square"></i>
-                              </a>
-                            </form> -->
-                        </td>
                     </tr>
                     <% }) %>
             </tbody>
