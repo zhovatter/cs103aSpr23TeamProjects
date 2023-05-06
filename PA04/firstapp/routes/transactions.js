@@ -102,19 +102,19 @@ async (req, res, next) => {
           await Transactions.aggregate(
               [ 
                 {$group:{
-                  _id:'userID'
-                  ,total:{$count:{}}
+                  _id:'$category'
+                  ,total:{$sum:'$amount'}
                   }},
                 {$sort:{total:-1}},              
               ])
             
       results = 
       //use Transactions.populate!!
-         await User.populate(results,
-                 {path:'_id',
-                 select:['category','amount']})
+        //  await Transactions.populate(results,
+        //          {path:'_id',
+        //          select:['category','total']})
 
-      //res.json(results)
+      // res.json(results)
 
       //use log prints to see what is being transferred!
       res.render('groupByCategory',{results})

@@ -7,13 +7,15 @@
         </tr>
     </thead>
     <tbody>
-        <% results.map(transaction => {%>
+        <% results.forEach(function(transaction) {%>
             <tr>
-               <td> <%= transaction.category %> </td>
-               <td><%= transaction.amount %></td>
+               <td> <%= transaction._id.category %> </td>
+               <td><%= transaction._id.amount %></td>
             </tr>
             
             <% }) %>
+
+        
 
     </tbody>
 </table>
