@@ -113,6 +113,16 @@ app.get('/about',
   }
 )
 
+const axios = require('axios')
+app.get('/openai_demo',
+async (req,res,next) => {
+response =
+await axios.post('http://gracehopper.cs-i.brandeis.edu:3500/openai',
+{prompt:"how does the flu differ from covid?"})
+res.json(response.data)
+})
+
+
 app.get('/team', (req,res,next) => {
   res.render('team');
 })
