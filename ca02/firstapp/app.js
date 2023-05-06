@@ -119,7 +119,7 @@ async (req,res,next) => {
 response =
 await axios.post('http://gracehopper.cs-i.brandeis.edu:3500/openai',
 {prompt:"how does the flu differ from covid?"})
-res.json(response.data)
+res.json(response.data.choices[0].message.content)
 })
 
 
